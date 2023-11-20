@@ -119,6 +119,13 @@ PYBIND11_MODULE(_core, m)
         Some other explanation about the subtract function.
     )pbdoc");
 
+    m.def("bd09togcj02", &bd09togcj02, "lng"_a, "lat"_a);
+    m.def("gcj02tobd09", &gcj02tobd09, "lng"_a, "lat"_a);
+    m.def("wgs84togcj02", &wgs84togcj02, "lng"_a, "lat"_a,
+          "check_out_of_china"_a = true);
+    m.def("gcj02towgs84", &gcj02towgs84, "lng"_a, "lat"_a,
+          "check_out_of_china"_a = true);
+
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 #else
