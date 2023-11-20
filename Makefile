@@ -55,7 +55,7 @@ PYTHON ?= python3
 python_install:
 	$(PYTHON) -m pip install .
 python_build:
-	$(PYTHON) -m pip build .
+	$(PYTHON) -m pip wheel .
 python_sdist:
 	$(PYTHON) -m pip sdist .
 python_test: pytest

@@ -6,6 +6,7 @@
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
 namespace py = pybind11;
+using namespace pybind11::literals;
 
 constexpr double x_PI = 3.14159265358979324 * 3000.0 / 180.0;
 constexpr double PI = 3.1415926535897932384626; // M_PI
