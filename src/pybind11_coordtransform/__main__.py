@@ -1,3 +1,4 @@
 from __future__ import annotations
 
-print("hello")
+if __name__ == "__main__":
+    pass
