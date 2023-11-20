@@ -11,16 +11,7 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(_core, m) {
     m.doc() = R"pbdoc(
-        Pybind11 example plugin
-        -----------------------
-
-        .. currentmodule:: scikit_build_example
-
-        .. autosummary::
-           :toctree: _generate
-
-           add
-           subtract
+        TODO
     )pbdoc";
 
     m.def("add", &add, R"pbdoc(

@@ -21,15 +21,6 @@ clean:
 force_clean:
 	docker run --rm -v `pwd`:`pwd` -w `pwd` -it alpine/make make clean
 
-CMAKE_ARGS ?= \
-	-DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) \
-	-DBUILD_SHARED_LIBS=OFF
-build:
-	mkdir -p $(BUILD_DIR) && cd $(BUILD_DIR) && \
-	cmake $(PROJECT_SOURCE_DIR) $(CMAKE_ARGS) && \
-	make -j$(NUM_JOB) && make install
-.PHONY: build
-
 pytest:
 	python3 -m pip install pytest numpy
 	pytest tests # --capture=tee-sys
@@ -62,11 +53,11 @@ test_in_dev_container:
 
 PYTHON ?= python3
 python_install:
-	$(PYTHON) setup.py install --force
+	$(PYTHON) -m pip install .
 python_build:
-	$(PYTHON) setup.py bdist_wheel
+	$(PYTHON) -m pip build .
 python_sdist:
-	$(PYTHON) setup.py sdist
+	$(PYTHON) -m pip sdist .
 python_test: pytest
 
 # conda create -y -n py36 python=3.6
