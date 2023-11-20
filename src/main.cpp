@@ -1,5 +1,7 @@
+#include <pybind11/eigen.h>
 #include <pybind11/pybind11.h>
 
+#include <Eigen/Dense>
 #include <cmath>
 
 #define STRINGIFY(x) #x
@@ -111,6 +113,95 @@ PYBIND11_MODULE(_core, m)
           "check_out_of_china"_a = true);
     m.def("gcj02towgs84", &gcj02towgs84, "lng"_a, "lat"_a,
           "check_out_of_china"_a = true);
+
+    m.def("out_of_china", &out_of_china, "lng"_a, "lat"_a);
+
+    using RowVectorsNx3 =
+        Eigen::Matrix<double, Eigen::Dynamic, 3, Eigen::RowMajor>;
+    using RowVectorsNx2 =
+        Eigen::Matrix<double, Eigen::Dynamic, 2, Eigen::RowMajor>;
+
+    m.def(
+        "wgs84_to_gcj02_Nx3",
+        [](const RowVectorsNx3 &coords, bool check_out_of_china) {
+            const size_t N = coords.rows();
+            if (!N) {
+                return coords;
+            }
+            if (check_out_of_china &&
+                out_of_china(coords(0, 0), coords(0, 1))) {
+                return coords;
+            }
+            RowVectorsNx3 converted = coords;
+            for (size_t i = 0; i < N; ++i) {
+                auto xy = wgs84togcj02(coords(i, 0), coords(i, 1), false);
+                converted(i, 0) = xy[0];
+                converted(i, 1) = xy[1];
+            }
+            return converted;
+        },
+        "lon_lat_alts"_a, "check_out_of_china"_a = true);
+    m.def(
+        "wgs84_to_gcj02_Nx2",
+        [](const RowVectorsNx2 &coords, bool check_out_of_china) {
+            const size_t N = coords.rows();
+            if (!N) {
+                return coords;
+            }
+            if (check_out_of_china &&
+                out_of_china(coords(0, 0), coords(0, 1))) {
+                return coords;
+            }
+            RowVectorsNx2 converted = coords;
+            for (size_t i = 0; i < N; ++i) {
+                auto xy = wgs84togcj02(coords(i, 0), coords(i, 1), false);
+                converted(i, 0) = xy[0];
+                converted(i, 1) = xy[1];
+            }
+            return converted;
+        },
+        "lon_lat_alts"_a, "check_out_of_china"_a = true);
+
+    m.def(
+        "gcj02_to_wgs84_Nx3",
+        [](const RowVectorsNx3 &coords, bool check_out_of_china) {
+            const size_t N = coords.rows();
+            if (!N) {
+                return coords;
+            }
+            if (check_out_of_china &&
+                out_of_china(coords(0, 0), coords(0, 1))) {
+                return coords;
+            }
+            RowVectorsNx3 converted = coords;
+            for (size_t i = 0; i < N; ++i) {
+                auto xy = gcj02towgs84(coords(i, 0), coords(i, 1), false);
+                converted(i, 0) = xy[0];
+                converted(i, 1) = xy[1];
+            }
+            return converted;
+        },
+        "lon_lat_alts"_a, "check_out_of_china"_a = true);
+    m.def(
+        "gcj02_to_wgs84_Nx3",
+        [](const RowVectorsNx2 &coords, bool check_out_of_china) {
+            const size_t N = coords.rows();
+            if (!N) {
+                return coords;
+            }
+            if (check_out_of_china &&
+                out_of_china(coords(0, 0), coords(0, 1))) {
+                return coords;
+            }
+            RowVectorsNx2 converted = coords;
+            for (size_t i = 0; i < N; ++i) {
+                auto xy = gcj02towgs84(coords(i, 0), coords(i, 1), false);
+                converted(i, 0) = xy[0];
+                converted(i, 1) = xy[1];
+            }
+            return converted;
+        },
+        "lon_lat_alts"_a, "check_out_of_china"_a = true);
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
