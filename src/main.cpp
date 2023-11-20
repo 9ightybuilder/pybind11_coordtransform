@@ -5,8 +5,6 @@
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
-int add(int i, int j) { return i + j; }
-
 namespace py = pybind11;
 
 constexpr double x_PI = 3.14159265358979324 * 3000.0 / 180.0;
@@ -103,21 +101,8 @@ inline std::array<double, 2> gcj02towgs84(double lng, double lat,
 PYBIND11_MODULE(_core, m)
 {
     m.doc() = R"pbdoc(
-        TODO
+        c++/python version of https://github.com/wandergis/coordtransform
     )pbdoc";
-
-    m.def("add", &add, R"pbdoc(
-        Add two numbers
-
-        Some other explanation about the add function.
-    )pbdoc");
-
-    m.def(
-        "subtract", [](int i, int j) { return i - j; }, R"pbdoc(
-        Subtract two numbers
-
-        Some other explanation about the subtract function.
-    )pbdoc");
 
     m.def("bd09togcj02", &bd09togcj02, "lng"_a, "lat"_a);
     m.def("gcj02tobd09", &gcj02tobd09, "lng"_a, "lat"_a);
