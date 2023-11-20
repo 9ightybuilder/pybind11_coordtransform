@@ -140,7 +140,7 @@ PYBIND11_MODULE(_core, m)
             }
             return converted;
         },
-        "lon_lat_alts"_a, "check_out_of_china"_a = true);
+        "coords"_a, "check_out_of_china"_a = true);
     m.def(
         "wgs84_to_gcj02_Nx2",
         [](const RowVectorsNx2 &coords, bool check_out_of_china) {
@@ -160,7 +160,7 @@ PYBIND11_MODULE(_core, m)
             }
             return converted;
         },
-        "lon_lat_alts"_a, "check_out_of_china"_a = true);
+        "coords"_a, "check_out_of_china"_a = true);
 
     m.def(
         "gcj02_to_wgs84_Nx3",
@@ -181,9 +181,9 @@ PYBIND11_MODULE(_core, m)
             }
             return converted;
         },
-        "lon_lat_alts"_a, "check_out_of_china"_a = true);
+        "coords"_a, "check_out_of_china"_a = true);
     m.def(
-        "gcj02_to_wgs84_Nx3",
+        "gcj02_to_wgs84_Nx2",
         [](const RowVectorsNx2 &coords, bool check_out_of_china) {
             const size_t N = coords.rows();
             if (!N) {
@@ -201,7 +201,7 @@ PYBIND11_MODULE(_core, m)
             }
             return converted;
         },
-        "lon_lat_alts"_a, "check_out_of_china"_a = true);
+        "coords"_a, "check_out_of_china"_a = true);
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
