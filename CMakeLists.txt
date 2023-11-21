@@ -10,6 +10,7 @@ find_package(pybind11 CONFIG REQUIRED)
 
 python_add_library(_core MODULE src/main.cpp WITH_SOABI)
 target_link_libraries(_core PRIVATE pybind11::headers)
+target_include_directories(_core PRIVATE src)
 target_compile_definitions(_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
 
 install(TARGETS _core DESTINATION pybind11_coordtransform)
