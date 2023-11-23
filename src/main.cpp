@@ -4,8 +4,6 @@
 #include <Eigen/Dense>
 #include <cmath>
 
-// TODO, pybind11/stl
-
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
@@ -44,7 +42,7 @@ inline bool out_of_china(double lng, double lat)
     return !(73.66 < lng && lng < 135.05 && 3.86 < lat && lat < 53.55);
 }
 
-inline std::array<double, 2> bd09togcj02(double bd_lng, double bd_lat)
+inline Eigen::Vector2d bd09togcj02(double bd_lng, double bd_lat)
 {
     double x = bd_lng - 0.0065;
     double y = bd_lat - 0.006;
@@ -55,7 +53,7 @@ inline std::array<double, 2> bd09togcj02(double bd_lng, double bd_lat)
     return {gg_lng, gg_lat};
 }
 
-inline std::array<double, 2> gcj02tobd09(double lng, double lat)
+inline Eigen::Vector2d gcj02tobd09(double lng, double lat)
 {
     double z =
         std::sqrt(lng * lng + lat * lat) + 0.00002 * std::sin(lat * x_PI);
@@ -65,8 +63,8 @@ inline std::array<double, 2> gcj02tobd09(double lng, double lat)
     return {bd_lng, bd_lat};
 }
 
-inline std::array<double, 2> wgs84togcj02(double lng, double lat,
-                                          bool check_output_china = true)
+inline Eigen::Vector2d wgs84togcj02(double lng, double lat,
+                                    bool check_output_china = true)
 {
     if (check_output_china && out_of_china(lng, lat)) {
         return {lng, lat};
@@ -84,8 +82,8 @@ inline std::array<double, 2> wgs84togcj02(double lng, double lat,
     return {mglng, mglat};
 }
 
-inline std::array<double, 2> gcj02towgs84(double lng, double lat,
-                                          bool check_output_china = true)
+inline Eigen::Vector2d gcj02towgs84(double lng, double lat,
+                                    bool check_output_china = true)
 {
     if (check_output_china && out_of_china(lng, lat)) {
         return {lng, lat};
