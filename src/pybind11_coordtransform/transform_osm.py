@@ -53,6 +53,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--mode",
         type=str,
+        required=True,
         help="should be 'gcj02_to_wgs84' or 'wgs84_to_gcj02'",
     )
     args = parser.parse_args()
@@ -61,8 +62,12 @@ if __name__ == "__main__":
     mode = args.mode
     args = None
 
-    os.makedirs(os.path.dirname(os.path.abspath(opath)), exist_ok=True)
-    writer = o.SimpleWriter(opath)
-    handler = Handler(mode=mode, writer=writer)
-    handler.apply_file(ipath)
-    writer.close()
+    if os.path.isfile(opath):
+        print(f'skip existing {opath}')
+    else:
+        os.makedirs(os.path.dirname(os.path.abspath(opath)), exist_ok=True)
+        writer = o.SimpleWriter(opath)
+        handler = Handler(mode=mode, writer=writer)
+        handler.apply_file(ipath)
+        writer.close()
+        print(f'wrote to {opath}')
