@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import argparse
+import os
 
 import osmium as o
 
 from . import gcj02towgs84, wgs84togcj02
 
 
-class Translate(o.SimpleHandler):
+class Handler(o.SimpleHandler):
     def __init__(
         self,
         *,
@@ -49,7 +50,19 @@ if __name__ == "__main__":
         type=str,
         help="output osm file",
     )
+    parser.add_argument(
+        "--mode",
+        type=str,
+        help="should be 'gcj02_to_wgs84' or 'wgs84_to_gcj02'",
+    )
     args = parser.parse_args()
-    input_path = args.input
-    output_path = args.output
+    ipath = args.input
+    opath = args.output
+    mode = args.mode
     args = None
+
+    os.makedirs(os.path.dirname(os.path.abspath(opath)), exist_ok=True)
+    writer = o.SimpleWriter(opath)
+    handler = Handler(mode=mode, writer=writer)
+    handler.apply_file(ipath)
+    writer.close()
