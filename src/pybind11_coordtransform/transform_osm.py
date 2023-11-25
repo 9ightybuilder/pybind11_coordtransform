@@ -1,9 +1,10 @@
-import math
-import os
-from typing import Any, Callable, Dict, List, Set, Tuple, Union  # noqa
+from __future__ import annotations
+
+import argparse
 
 import osmium as o
-from . import wgs84togcj02, gcj02towgs84
+
+from . import gcj02towgs84, wgs84togcj02
 
 
 class Translate(o.SimpleHandler):
@@ -14,8 +15,8 @@ class Translate(o.SimpleHandler):
         writer: o.SimpleWriter,
     ):
         super().__init__()
-        modes = ['gcj02_to_wgs84', 'wgs84_to_gcj02']
-        assert mode in modes, f'invalid mode={mode}, should be one of {modes}'
+        modes = ["gcj02_to_wgs84", "wgs84_to_gcj02"]
+        assert mode in modes, f"invalid mode={mode}, should be one of {modes}"
         self.translate_fn = gcj02towgs84 if mode == modes[0] else wgs84togcj02
         self.writer = writer
 
@@ -35,18 +36,18 @@ class Translate(o.SimpleHandler):
 
 
 if __name__ == "__main__":
-    prog = 'python3 -m pybind11_coordtransform transform_osm'
-    description = ('transform osm file')
+    prog = "python3 -m pybind11_coordtransform transform_osm"
+    description = "transform osm file"
     parser = argparse.ArgumentParser(prog=prog, description=description)
     parser.add_argument(
-        'input',
+        "input",
         type=str,
-        help='input osm file',
+        help="input osm file",
     )
     parser.add_argument(
-        'output',
+        "output",
         type=str,
-        help='output osm file',
+        help="output osm file",
     )
     args = parser.parse_args()
     input_path = args.input
