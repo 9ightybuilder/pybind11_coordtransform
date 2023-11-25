@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import argparse
-import os
+from pathlib import Path
 
 import osmium as o
 
@@ -62,12 +62,12 @@ if __name__ == "__main__":
     mode = args.mode
     args = None
 
-    if os.path.isfile(opath):
-        print(f'skip existing {opath}')
+    if Path(opath).is_file():
+        print(f"skip existing {opath}")  # noqa: T201
     else:
-        os.makedirs(os.path.dirname(os.path.abspath(opath)), exist_ok=True)
+        Path(opath).resolve().parent.mkdir(parents=True, exist_ok=True)
         writer = o.SimpleWriter(opath)
         handler = Handler(mode=mode, writer=writer)
         handler.apply_file(ipath)
         writer.close()
-        print(f'wrote to {opath}')
+        print(f"wrote to {opath}")  # noqa: T201
