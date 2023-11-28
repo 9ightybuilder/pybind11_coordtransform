@@ -9,7 +9,7 @@ version = "0.1.1"
 description="c++/python version of coordtransform"
 readme = "README.md"
 authors = [
-  { name = "My Name", email = "me@email.com" },
+  { name = "district10", email = "dvorak4tzx@gmail.com" },
 ]
 requires-python = ">=3.7"
 classifiers = [
@@ -22,6 +22,8 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
 ]
+[project.urls]
+Homepage = "https://github.com/cubao/pybind11_coordtransform"
 
 [project.optional-dependencies]
 test = ["pytest"]
