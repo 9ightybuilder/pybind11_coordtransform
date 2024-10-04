@@ -64,8 +64,8 @@ python_test: pytest
 .PHONY: build
 
 restub:
-	pybind11-stubgen fast_viterbi._core -o stubs
-	cp stubs/fast_viterbi/_core.pyi src/fast_viterbi
+	pybind11-stubgen pybind11_coordtransform._core -o stubs
+	cp stubs/pybind11_coordtransform/_core.pyi src/pybind11_coordtransform
 
 # conda create -y -n py38 python=3.8
 # conda create -y -n py39 python=3.9
