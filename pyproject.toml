@@ -5,7 +5,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "pybind11_coordtransform"
-version = "0.1.1"
+version = "0.1.2"
 description="c++/python version of coordtransform"
 readme = "README.md"
 authors = [
@@ -62,6 +62,7 @@ build-verbosity = 1
 src = ["src"]
 
 [tool.ruff.lint]
+exclude = ["*.pyi"]
 extend-select = [
   "B",           # flake8-bugbear
   "I",           # isort

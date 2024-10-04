@@ -142,3 +142,4 @@ cython_debug/
 _skbuild/
 coordtransform
 *.whl
+stubs

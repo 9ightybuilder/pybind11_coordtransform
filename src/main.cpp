@@ -107,14 +107,69 @@ PYBIND11_MODULE(_core, m)
         c++/python version of https://github.com/wandergis/coordtransform
     )pbdoc";
 
-    m.def("bd09togcj02", &bd09togcj02, "lng"_a, "lat"_a);
-    m.def("gcj02tobd09", &gcj02tobd09, "lng"_a, "lat"_a);
-    m.def("wgs84togcj02", &wgs84togcj02, "lng"_a, "lat"_a,
-          "check_out_of_china"_a = true);
-    m.def("gcj02towgs84", &gcj02towgs84, "lng"_a, "lat"_a,
-          "check_out_of_china"_a = true);
+    m.def("bd09togcj02", &bd09togcj02, "lng"_a, "lat"_a,
+          R"pbdoc(
+          Convert BD09 coordinates to GCJ02 coordinates.
 
-    m.def("out_of_china", &out_of_china, "lng"_a, "lat"_a);
+          Args:
+              lng (float): Longitude in BD09 coordinate system.
+              lat (float): Latitude in BD09 coordinate system.
+
+          Returns:
+              tuple: A tuple containing (longitude, latitude) in GCJ02 coordinate system.
+          )pbdoc");
+
+    m.def("gcj02tobd09", &gcj02tobd09, "lng"_a, "lat"_a,
+          R"pbdoc(
+          Convert GCJ02 coordinates to BD09 coordinates.
+
+          Args:
+              lng (float): Longitude in GCJ02 coordinate system.
+              lat (float): Latitude in GCJ02 coordinate system.
+
+          Returns:
+              tuple: A tuple containing (longitude, latitude) in BD09 coordinate system.
+          )pbdoc");
+
+    m.def("wgs84togcj02", &wgs84togcj02, "lng"_a, "lat"_a,
+          "check_out_of_china"_a = true,
+          R"pbdoc(
+          Convert WGS84 coordinates to GCJ02 coordinates.
+
+          Args:
+              lng (float): Longitude in WGS84 coordinate system.
+              lat (float): Latitude in WGS84 coordinate system.
+              check_out_of_china (bool, optional): If True, check if the coordinates are outside China. Defaults to True.
+
+          Returns:
+              tuple: A tuple containing (longitude, latitude) in GCJ02 coordinate system.
+          )pbdoc");
+
+    m.def("gcj02towgs84", &gcj02towgs84, "lng"_a, "lat"_a,
+          "check_out_of_china"_a = true,
+          R"pbdoc(
+          Convert GCJ02 coordinates to WGS84 coordinates.
+
+          Args:
+              lng (float): Longitude in GCJ02 coordinate system.
+              lat (float): Latitude in GCJ02 coordinate system.
+              check_out_of_china (bool, optional): If True, check if the coordinates are outside China. Defaults to True.
+
+          Returns:
+              tuple: A tuple containing (longitude, latitude) in WGS84 coordinate system.
+          )pbdoc");
+
+    m.def("out_of_china", &out_of_china, "lng"_a, "lat"_a,
+          R"pbdoc(
+          Check if the given coordinates are outside China.
+
+          Args:
+              lng (float): Longitude.
+              lat (float): Latitude.
+
+          Returns:
+              bool: True if the coordinates are outside China, False otherwise.
+          )pbdoc");
 
     using RowVectorsNx3 =
         Eigen::Matrix<double, Eigen::Dynamic, 3, Eigen::RowMajor>;
@@ -140,7 +195,18 @@ PYBIND11_MODULE(_core, m)
             }
             return converted;
         },
-        "coords"_a, "check_out_of_china"_a = true);
+        "coords"_a, "check_out_of_china"_a = true,
+        R"pbdoc(
+        Convert multiple WGS84 coordinates to GCJ02 coordinates (for Nx3 matrices).
+
+        Args:
+            coords (numpy.ndarray): Nx3 array of coordinates in WGS84 system.
+            check_out_of_china (bool, optional): If True, check if the first coordinate is outside China. Defaults to True.
+
+        Returns:
+            numpy.ndarray: Nx3 array of coordinates in GCJ02 system.
+        )pbdoc");
+
     m.def(
         "wgs84_to_gcj02_Nx2",
         [](const RowVectorsNx2 &coords, bool check_out_of_china) {
@@ -160,7 +226,17 @@ PYBIND11_MODULE(_core, m)
             }
             return converted;
         },
-        "coords"_a, "check_out_of_china"_a = true);
+        "coords"_a, "check_out_of_china"_a = true,
+        R"pbdoc(
+        Convert multiple WGS84 coordinates to GCJ02 coordinates (for Nx2 matrices).
+
+        Args:
+            coords (numpy.ndarray): Nx2 array of coordinates in WGS84 system.
+            check_out_of_china (bool, optional): If True, check if the first coordinate is outside China. Defaults to True.
+
+        Returns:
+            numpy.ndarray: Nx2 array of coordinates in GCJ02 system.
+        )pbdoc");
 
     m.def(
         "gcj02_to_wgs84_Nx3",
@@ -181,7 +257,18 @@ PYBIND11_MODULE(_core, m)
             }
             return converted;
         },
-        "coords"_a, "check_out_of_china"_a = true);
+        "coords"_a, "check_out_of_china"_a = true,
+        R"pbdoc(
+        Convert multiple GCJ02 coordinates to WGS84 coordinates (for Nx3 matrices).
+
+        Args:
+            coords (numpy.ndarray): Nx3 array of coordinates in GCJ02 system.
+            check_out_of_china (bool, optional): If True, check if the first coordinate is outside China. Defaults to True.
+
+        Returns:
+            numpy.ndarray: Nx3 array of coordinates in WGS84 system.
+        )pbdoc");
+
     m.def(
         "gcj02_to_wgs84_Nx2",
         [](const RowVectorsNx2 &coords, bool check_out_of_china) {
@@ -201,7 +288,17 @@ PYBIND11_MODULE(_core, m)
             }
             return converted;
         },
-        "coords"_a, "check_out_of_china"_a = true);
+        "coords"_a, "check_out_of_china"_a = true,
+        R"pbdoc(
+        Convert multiple GCJ02 coordinates to WGS84 coordinates (for Nx2 matrices).
+
+        Args:
+            coords (numpy.ndarray): Nx2 array of coordinates in GCJ02 system.
+            check_out_of_china (bool, optional): If True, check if the first coordinate is outside China. Defaults to True.
+
+        Returns:
+            numpy.ndarray: Nx2 array of coordinates in WGS84 system.
+        )pbdoc");
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
