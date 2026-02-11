@@ -6,7 +6,7 @@
 from __future__ import annotations
 import numpy
 
-__all__ = [
+__all__: list[str] = [
     "bd09togcj02",
     "gcj02_to_wgs84_Nx2",
     "gcj02_to_wgs84_Nx3",
@@ -140,4 +140,4 @@ def wgs84togcj02(
         tuple: A tuple containing (longitude, latitude) in GCJ02 coordinate system.
     """
 
-__version__: str = "0.1.2"
+__version__: str = "0.1.3"
